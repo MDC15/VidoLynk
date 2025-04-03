@@ -1,0 +1,406 @@
+/* public/style.css */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --secondary-color: #6c757d;
+  --secondary-hover: #5a6268;
+  --danger-color: #dc3545;
+  --danger-hover: #c82333;
+  --light-bg: #f8f9fa;
+  --white: #fff;
+  --gray-border: #ced4da;
+  --text-color: #333;
+  --muted-text: #6c757d;
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --error-color: #dc3545;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Cho phép các phần tử con co giãn */
+  padding: 15px;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  line-height: 1.5;
+  margin: 0;
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 0.9em;
+  color: var(--muted-text);
+  margin-bottom: 5px;
+  text-align: center;
+  font-weight: normal;
+}
+
+h3 span {
+  font-family: monospace;
+  /* Font khác cho ID ngắn */
+}
+
+
+.controls,
+.call-area,
+.room-management {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: auto;
+  /* Cho phép co giãn */
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.room-management {
+  border: 1px solid var(--gray-border);
+}
+
+.room-management h2 {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+#roomList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--gray-border);
+  border-radius: 4px;
+  background-color: var(--white);
+}
+
+#roomList li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95em;
+}
+
+#roomList li:last-child {
+  border-bottom: none;
+}
+
+#roomList li:hover {
+  background-color: #e9ecef;
+}
+
+#roomList li .room-id {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+#roomList li .room-info {
+  font-size: 0.85em;
+  color: var(--muted-text);
+  margin-left: 10px;
+  white-space: nowrap;
+  /* Ngăn xuống dòng */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+  /* Giới hạn chiều rộng để tránh đẩy tên phòng */
+}
+
+
+#roomList .no-rooms,
+#roomList .loading-rooms {
+  padding: 15px;
+  text-align: center;
+  color: var(--muted-text);
+  font-style: italic;
+  cursor: default;
+}
+
+#roomList .no-rooms:hover,
+#roomList .loading-rooms:hover {
+  background-color: transparent;
+}
+
+button {
+  padding: 10px 18px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--white);
+}
+
+button:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+#refreshRoomsBtn {
+  background-color: var(--secondary-color);
+  font-size: 0.9em;
+  padding: 8px 12px;
+  display: block;
+  /* Cho nút xuống hàng riêng */
+  margin: 10px auto 0 auto;
+  /* Canh giữa */
+}
+
+#refreshRoomsBtn:hover {
+  background-color: var(--secondary-hover);
+}
+
+.room-management .instructions {
+  font-size: 0.9em;
+  color: var(--muted-text);
+  margin-top: 15px;
+  text-align: center;
+}
+
+#join-controls h2 {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+#join-controls .input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#join-controls label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+#join-controls input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+#join-controls input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+
+#joinBtn {
+  background-color: var(--primary-color);
+  width: 100%;
+  margin-top: 5px;
+}
+
+#joinBtn:hover {
+  background-color: var(--primary-hover);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Call Area Styling */
+#call-area {
+  background-color: #e9ecef;
+  /* Nền hơi khác cho khu vực gọi */
+  border: 1px solid #dee2e6;
+}
+
+#call-area h2 {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+}
+
+#call-area h2 span {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.videos {
+  display: flex;
+  justify-content: center;
+  /* Canh giữa các video container */
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--white);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--gray-border);
+  min-width: 280px;
+  flex: 1;
+  /* Cho phép co giãn đều */
+  max-width: calc(50% - 10px);
+  /* Tối đa 2 cột, trừ đi gap */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Đảm bảo video không vượt quá container */
+video {
+  width: 100%;
+  height: auto;
+  /* Duy trì tỷ lệ */
+  max-width: 100%;
+  /* Không vượt quá container */
+  border: 1px solid #ccc;
+  background-color: #333;
+  border-radius: 4px;
+  display: block;
+  /* Loại bỏ khoảng trắng thừa */
+  object-fit: cover;
+  /* Đảm bảo video phủ kín khung */
+  min-height: 200px;
+  /* Chiều cao tối thiểu */
+}
+
+.nickname-overlay {
+  position: absolute;
+  bottom: 15px;
+  /* Đặt vị trí nickname */
+  left: 15px;
+  background-color: var(--overlay-bg);
+  color: var(--white);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  z-index: 10;
+  max-width: calc(100% - 30px);
+  /* Giới hạn chiều rộng */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#remoteStatus {
+  font-style: italic;
+  color: var(--muted-text);
+  margin-top: 10px;
+  min-height: 1.2em;
+  text-align: center;
+  width: 100%;
+  /* Đảm bảo chiếm đủ chiều rộng */
+}
+
+#leaveBtn {
+  background-color: var(--danger-color);
+  display: block;
+  /* Nút riêng một hàng */
+  width: auto;
+  /* Tự động co giãn theo nội dung */
+  min-width: 120px;
+  margin: 15px auto 0 auto;
+  /* Canh giữa */
+}
+
+#leaveBtn:hover {
+  background-color: var(--danger-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+  .controls,
+  .call-area,
+  .room-management {
+    padding: 15px;
+  }
+
+  .video-container {
+    max-width: calc(100% - 10px);
+    /* Một cột trên màn hình nhỏ */
+    min-width: 250px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .controls,
+  .call-area,
+  .room-management {
+    padding: 10px;
+  }
+
+  button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  #join-controls input[type="text"] {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  #roomList li {
+    padding: 8px 10px;
+    font-size: 0.9em;
+  }
+
+  .video-container {
+    min-width: 200px;
+  }
+
+  video {
+    min-height: 150px;
+  }
+
+  .nickname-overlay {
+    bottom: 10px;
+    left: 10px;
+    padding: 3px 8px;
+    font-size: 0.8em;
+  }
+}

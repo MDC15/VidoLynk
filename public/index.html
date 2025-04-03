@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gọi Video Thời Gian Thực</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Ứng dụng gọi video đơn giản sử dụng WebRTC và Node.js">
+</head>
+
+<body>
+  <h1>Ứng Dụng Gọi Video</h1>
+
+  <!-- Khu vực Quản lý Phòng -->
+  <div id="room-management" class="room-management controls">
+    <h2>Các Phòng Đang Hoạt Động</h2>
+    <ul id="roomList">
+      <li>Đang tải danh sách phòng...</li>
+    </ul>
+    <button id="refreshRoomsBtn" title="Làm mới danh sách phòng">Làm mới</button>
+    <p class="instructions">Nhấp vào tên phòng để chọn, hoặc nhập ID phòng mới ở dưới để tạo.</p>
+  </div>
+
+  <!-- Khu vực Điều khiển Tham gia -->
+  <div class="controls" id="join-controls">
+    <h2>Tham Gia hoặc Tạo Phòng Mới</h2>
+    <div class="input-group">
+      <label for="nickname">Biệt danh (Nickname):</label>
+      <input type="text" id="nickname" placeholder="Nhập biệt danh của bạn" required>
+    </div>
+    <div class="input-group">
+      <label for="roomId">ID Phòng:</label>
+      <input type="text" id="roomId" placeholder="Nhập ID phòng hoặc chọn ở trên" required>
+    </div>
+    <button id="joinBtn">Tham Gia / Tạo Phòng</button>
+    <p id="joinError" class="error-message hidden"></p> <!-- Thêm phần tử hiển thị lỗi -->
+  </div>
+
+  <!-- Khu vực Cuộc Gọi (Ẩn ban đầu) -->
+  <div id="call-area" class="call-area hidden">
+    <h2>Đang ở trong phòng: <span id="currentRoomId"></span></h2>
+    <div class="videos">
+      <div class="video-container local-video-container">
+        <h3>Bạn (<span id="localUserIdShort"></span>)</h3>
+        <video id="localVideo" autoplay muted playsinline></video>
+        <span class="nickname-overlay" id="localNickname">Bạn</span>
+      </div>
+      <div class="video-container remote-video-container">
+        <h3>Đối tác (<span id="remoteUserIdShort"></span>)</h3>
+        <video id="remoteVideo" autoplay playsinline></video>
+        <span class="nickname-overlay" id="remoteNickname"></span>
+        <p id="remoteStatus">Đang chờ đối tác...</p>
+      </div>
+    </div>
+    <button id="leaveBtn">Rời Phòng</button>
+  </div>
+
+  <!-- Thư viện Socket.IO client -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- Script tùy chỉnh -->
+  <script src="script.js"></script>
+</body>
+
+</html>
