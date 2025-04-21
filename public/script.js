@@ -702,18 +702,6 @@ function handleSignalingError(context, error = null) {
 // --- Start Application ---
 window.onload = initialize;
 
-socket.on('host changed', ({ newHostId, newHostNickname }) => {
-  // Cập nhật UI nếu mình là host mới
-  if (socket.id === newHostId) {
-    alert('Bạn vừa trở thành host của phòng.');
-    // Có thể cập nhật UI hoặc quyền điều khiển ở phía client nếu cần
-  } else {
-    // Cập nhật hiển thị host mới cho tất cả thành viên còn lại
-    remoteStatus.textContent = `Host mới: ${newHostNickname}`;
-  }
-});
-
-
 // --- Graceful Shutdown ---
 window.onbeforeunload = () => {
     // Only try to leave if actually connected to a room/call
