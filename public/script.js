@@ -6,6 +6,7 @@ const roomManagementArea = document.getElementById('room-management');
 const roomList = document.getElementById('roomList');
 const refreshRoomsBtn = document.getElementById('refreshRoomsBtn');
 const joinControls = document.getElementById('join-controls');
+const joinForm = document.getElementById('joinForm');
 const nicknameInput = document.getElementById('nickname');
 const roomIdInput = document.getElementById('roomId');
 const joinBtn = document.getElementById('joinBtn');
@@ -48,7 +49,14 @@ function initialize() {
 
     // Event Listeners
     refreshRoomsBtn.onclick = requestRoomList;
-    joinBtn.onclick = joinRoom;
+    if (joinForm) {
+        joinForm.onsubmit = (e) => {
+            e.preventDefault();
+            joinRoom();
+        };
+    } else {
+        joinBtn.onclick = joinRoom;
+    }
     leaveBtn.onclick = leaveRoom;
 
     // Initial UI State
@@ -211,10 +219,22 @@ function updateRoomListUI(rooms) {
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
 
-        li.onclick = () => {
+        li.tabIndex = 0;
+        li.setAttribute("role", "button");
+        li.setAttribute("aria-label", `Tham gia phòng ${room.id}, hiện có ${room.count} người`);
+
+        const selectRoom = () => {
             roomIdInput.value = room.id;
             console.log(`Selected room: ${room.id}`);
-            roomIdInput.focus(); // Focus vào input để người dùng dễ thấy
+            roomIdInput.focus();
+        };
+
+        li.onclick = selectRoom;
+        li.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectRoom();
+            }
         };
 
         roomList.appendChild(li);
@@ -275,6 +295,8 @@ async function joinRoom() {
 
     hideJoinError();
     joinBtn.disabled = true;
+    const originalBtnText = joinBtn.textContent;
+    joinBtn.textContent = "Đang tham gia...";
     console.log(`Attempting to join room "${roomId}" as "${localNickname}"`);
 
     try {
@@ -299,6 +321,7 @@ async function joinRoom() {
         updateRemoteStatus(); // Show 'Waiting...'
 
     } catch (error) {
+        joinBtn.textContent = originalBtnText;
         console.error('Error during join room process:', error);
         if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
             alert("Không tìm thấy camera hoặc microphone.");
