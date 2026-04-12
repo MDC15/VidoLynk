@@ -198,6 +198,9 @@ function updateRoomListUI(rooms) {
     rooms.forEach(room => {
         const li = document.createElement('li');
         li.dataset.roomId = room.id;
+        li.setAttribute('role', 'button');
+        li.setAttribute('tabindex', '0');
+        li.setAttribute('aria-label', `Chọn phòng ${room.id}`);
 
         const roomIdSpan = document.createElement('span');
         roomIdSpan.textContent = room.id;
@@ -211,10 +214,18 @@ function updateRoomListUI(rooms) {
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
 
-        li.onclick = () => {
+        const selectRoom = () => {
             roomIdInput.value = room.id;
             console.log(`Selected room: ${room.id}`);
             roomIdInput.focus(); // Focus vào input để người dùng dễ thấy
+        };
+
+        li.onclick = selectRoom;
+        li.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectRoom();
+            }
         };
 
         roomList.appendChild(li);
