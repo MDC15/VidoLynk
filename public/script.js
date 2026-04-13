@@ -275,6 +275,8 @@ async function joinRoom() {
 
     hideJoinError();
     joinBtn.disabled = true;
+    const originalBtnText = joinBtn.textContent;
+    joinBtn.textContent = "Đang tham gia...";
     console.log(`Attempting to join room "${roomId}" as "${localNickname}"`);
 
     try {
@@ -315,6 +317,7 @@ async function joinRoom() {
         }
         localNicknameSpan.style.display = 'none';
         joinBtn.disabled = false; // Allow retry
+        joinBtn.textContent = originalBtnText;
         currentRoom = null; // Reset current room
     }
 }
@@ -335,6 +338,7 @@ function leaveRoom() {
     roomManagementArea.classList.remove('hidden');
     joinControls.classList.remove('hidden');
     joinBtn.disabled = false;
+    joinBtn.textContent = "Tham Gia / Tạo Phòng";
     // nicknameInput.value = localNickname; // Optionally keep nickname
     roomIdInput.value = '';
     localVideo.srcObject = null;
