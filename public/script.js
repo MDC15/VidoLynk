@@ -198,6 +198,9 @@ function updateRoomListUI(rooms) {
     rooms.forEach(room => {
         const li = document.createElement('li');
         li.dataset.roomId = room.id;
+        li.tabIndex = 0;
+        li.setAttribute('role', 'button');
+        li.setAttribute('aria-label', `Tham gia phòng ${room.id}`);
 
         const roomIdSpan = document.createElement('span');
         roomIdSpan.textContent = room.id;
@@ -211,10 +214,18 @@ function updateRoomListUI(rooms) {
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
 
-        li.onclick = () => {
+        const selectRoom = () => {
             roomIdInput.value = room.id;
             console.log(`Selected room: ${room.id}`);
             roomIdInput.focus(); // Focus vào input để người dùng dễ thấy
+        };
+
+        li.onclick = selectRoom;
+        li.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectRoom();
+            }
         };
 
         roomList.appendChild(li);
@@ -275,6 +286,8 @@ async function joinRoom() {
 
     hideJoinError();
     joinBtn.disabled = true;
+    const originalBtnText = joinBtn.textContent;
+    joinBtn.textContent = 'Đang kết nối...';
     console.log(`Attempting to join room "${roomId}" as "${localNickname}"`);
 
     try {
@@ -300,6 +313,7 @@ async function joinRoom() {
 
     } catch (error) {
         console.error('Error during join room process:', error);
+        joinBtn.textContent = originalBtnText;
         if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
             alert("Không tìm thấy camera hoặc microphone.");
         } else if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
@@ -356,6 +370,7 @@ function leaveRoom() {
 
     // Reconnect socket after leaving to see room list again
     setTimeout(connectSocket, 500); // Delay before reconnecting
+    joinBtn.textContent = 'Tham Gia / Tạo Phòng';
 }
 
 

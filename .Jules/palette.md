@@ -1,0 +1,3 @@
+## 2026-04-14 - [Accessibility and Interaction Feedback in WebRTC]
+**Learning:** In WebRTC-based applications, providing immediate visual feedback (like "Connecting...") when hardware permissions (camera/mic) are requested is crucial to prevent user confusion and double-clicking. Additionally, custom interactive elements like room lists in <li> tags must be explicitly made keyboard-accessible using role="button", tabindex="0", and appropriate ARIA labels to ensure a smooth experience for screen reader and keyboard-only users.
+**Action:** Always include ARIA live regions for error messages and ensure all custom interactive components support keyboard navigation (Enter/Space) and have visible focus states.

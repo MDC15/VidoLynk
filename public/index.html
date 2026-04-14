@@ -18,7 +18,7 @@
     <ul id="roomList">
       <li>Đang tải danh sách phòng...</li>
     </ul>
-    <button id="refreshRoomsBtn" title="Làm mới danh sách phòng">Làm mới</button>
+    <button id="refreshRoomsBtn" title="Làm mới danh sách phòng" aria-label="Làm mới danh sách phòng">Làm mới</button>
     <p class="instructions">Nhấp vào tên phòng để chọn, hoặc nhập ID phòng mới ở dưới để tạo.</p>
   </div>
 
@@ -34,7 +34,7 @@
       <input type="text" id="roomId" placeholder="Nhập ID phòng hoặc chọn ở trên" required>
     </div>
     <button id="joinBtn">Tham Gia / Tạo Phòng</button>
-    <p id="joinError" class="error-message hidden"></p> <!-- Thêm phần tử hiển thị lỗi -->
+    <p id="joinError" class="error-message hidden" role="alert" aria-live="polite"></p> <!-- Thêm phần tử hiển thị lỗi -->
   </div>
 
   <!-- Khu vực Cuộc Gọi (Ẩn ban đầu) -->
