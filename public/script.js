@@ -198,6 +198,9 @@ function updateRoomListUI(rooms) {
     rooms.forEach(room => {
         const li = document.createElement('li');
         li.dataset.roomId = room.id;
+        li.setAttribute('role', 'button');
+        li.setAttribute('tabindex', '0');
+        li.setAttribute('aria-label', `Tham gia phòng ${room.id}`);
 
         const roomIdSpan = document.createElement('span');
         roomIdSpan.textContent = room.id;
@@ -211,10 +214,18 @@ function updateRoomListUI(rooms) {
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
 
-        li.onclick = () => {
+        const selectRoom = () => {
             roomIdInput.value = room.id;
             console.log(`Selected room: ${room.id}`);
             roomIdInput.focus(); // Focus vào input để người dùng dễ thấy
+        };
+
+        li.onclick = selectRoom;
+        li.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectRoom();
+            }
         };
 
         roomList.appendChild(li);
@@ -275,6 +286,7 @@ async function joinRoom() {
 
     hideJoinError();
     joinBtn.disabled = true;
+    joinBtn.textContent = 'Đang kết nối...';
     console.log(`Attempting to join room "${roomId}" as "${localNickname}"`);
 
     try {
@@ -315,6 +327,7 @@ async function joinRoom() {
         }
         localNicknameSpan.style.display = 'none';
         joinBtn.disabled = false; // Allow retry
+        joinBtn.textContent = 'Tham Gia / Tạo Phòng';
         currentRoom = null; // Reset current room
     }
 }
@@ -335,6 +348,7 @@ function leaveRoom() {
     roomManagementArea.classList.remove('hidden');
     joinControls.classList.remove('hidden');
     joinBtn.disabled = false;
+    joinBtn.textContent = 'Tham Gia / Tạo Phòng';
     // nicknameInput.value = localNickname; // Optionally keep nickname
     roomIdInput.value = '';
     localVideo.srcObject = null;

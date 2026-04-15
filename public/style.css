@@ -100,8 +100,11 @@ h3 span {
   border-bottom: none;
 }
 
-#roomList li:hover {
+#roomList li:hover,
+#roomList li:focus-visible {
   background-color: #e9ecef;
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
 }
 
 #roomList li .room-id {
