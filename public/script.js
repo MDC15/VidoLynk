@@ -198,6 +198,9 @@ function updateRoomListUI(rooms) {
     rooms.forEach(room => {
         const li = document.createElement('li');
         li.dataset.roomId = room.id;
+        li.tabIndex = 0;
+        li.setAttribute('role', 'button');
+        li.setAttribute('aria-label', `Chọn phòng ${room.id}`);
 
         const roomIdSpan = document.createElement('span');
         roomIdSpan.textContent = room.id;
