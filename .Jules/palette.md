@@ -1,5 +1,9 @@
 # Palette's UX Journal
 
+## 2025-04-11 - [Accessibility and Interaction Polish]
+**Learning:** Real-time applications often miss basic accessibility features like ARIA live regions for dynamic updates (room lists, error messages) and keyboard navigation for custom interactive elements (list items as buttons).
+**Action:** Always wrap interactive inputs in a `<form>` to support native "Enter" key submission. Use `aria-live="polite"` for dynamic content and ensure custom interactive elements have a proper `tabindex`, `role="button"`, and keyboard event handlers. Provide immediate visual feedback (loading states) for asynchronous operations like camera access.
+
 ## 2025-05-14 - Keyboard Accessibility and Screen Reader Improvements for Room Lists
 **Learning:** Interactive list items (like the room list) need explicit keyboard support (`tabindex`, `role="button"`, and `keydown` listeners) and visual focus states to be accessible to keyboard-only users. Additionally, dynamic status changes and error messages require ARIA live regions (`aria-live="polite"`) to be announced by screen readers.
 **Action:** Always ensure any custom interactive elements are keyboard-navigable and have corresponding ARIA roles and live region attributes for status updates.

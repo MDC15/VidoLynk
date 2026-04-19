@@ -6,6 +6,7 @@ const roomManagementArea = document.getElementById('room-management');
 const roomList = document.getElementById('roomList');
 const refreshRoomsBtn = document.getElementById('refreshRoomsBtn');
 const joinControls = document.getElementById('join-controls');
+const joinForm = document.getElementById('joinForm');
 const nicknameInput = document.getElementById('nickname');
 const roomIdInput = document.getElementById('roomId');
 const joinBtn = document.getElementById('joinBtn');
@@ -48,7 +49,14 @@ function initialize() {
 
     // Event Listeners
     refreshRoomsBtn.onclick = requestRoomList;
-    joinBtn.onclick = joinRoom;
+    if (joinForm) {
+        joinForm.onsubmit = (e) => {
+            e.preventDefault();
+            joinRoom();
+        };
+    } else {
+        joinBtn.onclick = joinRoom;
+    }
     leaveBtn.onclick = leaveRoom;
 
     // Initial UI State
