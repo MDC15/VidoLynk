@@ -104,6 +104,12 @@ h3 span {
   background-color: #e9ecef;
 }
 
+#roomList li:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+  background-color: #e9ecef;
+}
+
 #roomList li .room-id {
   font-weight: 500;
   color: var(--primary-color);

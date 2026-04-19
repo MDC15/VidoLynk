@@ -211,10 +211,23 @@ function updateRoomListUI(rooms) {
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
 
-        li.onclick = () => {
+        // Accessibility: Allow keyboard interaction
+        li.tabIndex = 0;
+        li.setAttribute("role", "button");
+        li.ariaLabel = `Tham gia phòng ${room.id}`;
+
+        const selectRoom = () => {
             roomIdInput.value = room.id;
             console.log(`Selected room: ${room.id}`);
             roomIdInput.focus(); // Focus vào input để người dùng dễ thấy
+        };
+
+        li.onclick = selectRoom;
+        li.onkeydown = (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                selectRoom();
+            }
         };
 
         roomList.appendChild(li);
