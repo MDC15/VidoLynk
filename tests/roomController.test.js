@@ -1,37 +1,39 @@
-const RoomController = require('../src/controllers/roomController');
+const { test, expect } = require('@playwright/test');
+const roomController = require('../src/controllers/roomController');
 
-describe('RoomController', () => {
-  let ctrl;
-  beforeEach(() => {
-    ctrl = new (require('../src/controllers/roomController').constructor)();
+test.describe('RoomController', () => {
+  test.beforeEach(() => {
+    // Clear rooms before each test if necessary
+    // Since it's a singleton, we might need a way to reset it
+    roomController.rooms.clear();
   });
 
-  test('create and join room', () => {
-    const { room } = ctrl.createOrJoinRoom('abc', 'id1', 'A');
+  test('create and join room', async () => {
+    const { room } = roomController.createOrJoinRoom('abc', 'id1', 'A');
     expect(room.host.id).toBe('id1');
     expect(room.users).toHaveLength(1);
-    ctrl.createOrJoinRoom('abc', 'id2', 'B');
+    roomController.createOrJoinRoom('abc', 'id2', 'B');
     expect(room.users).toHaveLength(2);
     expect(room.users[1].nickname).toBe('B');
   });
 
-  test('room full', () => {
-    ctrl.createOrJoinRoom('abc', 'id1', 'A');
-    ctrl.createOrJoinRoom('abc', 'id2', 'B');
-    const { error } = ctrl.createOrJoinRoom('abc', 'id3', 'C');
+  test('room full', async () => {
+    roomController.createOrJoinRoom('abc', 'id1', 'A');
+    roomController.createOrJoinRoom('abc', 'id2', 'B');
+    const { error } = roomController.createOrJoinRoom('abc', 'id3', 'C');
     expect(error).toBe('Phòng đã đầy');
   });
 
-  test('host handover', () => {
-    ctrl.createOrJoinRoom('abc', 'id1', 'A');
-    ctrl.createOrJoinRoom('abc', 'id2', 'B');
-    const { newHost } = ctrl.leaveRoom('abc', 'id1');
+  test('host handover', async () => {
+    roomController.createOrJoinRoom('abc', 'id1', 'A');
+    roomController.createOrJoinRoom('abc', 'id2', 'B');
+    const { newHost } = roomController.leaveRoom('abc', 'id1');
     expect(newHost.id).toBe('id2');
   });
 
-  test('room deletion', () => {
-    ctrl.createOrJoinRoom('abc', 'id1', 'A');
-    ctrl.leaveRoom('abc', 'id1');
-    expect(ctrl.getRoomList().length).toBe(0);
+  test('room deletion', async () => {
+    roomController.createOrJoinRoom('abc', 'id1', 'A');
+    roomController.leaveRoom('abc', 'id1');
+    expect(roomController.getRoomList().length).toBe(0);
   });
 });
