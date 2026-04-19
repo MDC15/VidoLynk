@@ -200,7 +200,7 @@ function updateRoomListUI(rooms) {
         li.dataset.roomId = room.id;
         li.tabIndex = 0;
         li.setAttribute('role', 'button');
-        li.setAttribute('aria-label', `Chọn phòng ${room.id}`);
+        li.setAttribute('aria-label', `Tham gia phòng ${room.id}`);
 
         const roomIdSpan = document.createElement('span');
         roomIdSpan.textContent = room.id;
@@ -213,11 +213,6 @@ function updateRoomListUI(rooms) {
 
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
-
-        // Accessibility: Allow keyboard interaction
-        li.tabIndex = 0;
-        li.setAttribute("role", "button");
-        li.ariaLabel = `Tham gia phòng ${room.id}`;
 
         const selectRoom = () => {
             roomIdInput.value = room.id;
