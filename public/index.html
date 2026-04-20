@@ -18,23 +18,25 @@
     <ul id="roomList">
       <li>Đang tải danh sách phòng...</li>
     </ul>
-    <button id="refreshRoomsBtn" title="Làm mới danh sách phòng">Làm mới</button>
+    <button id="refreshRoomsBtn" title="Làm mới danh sách phòng" aria-label="Làm mới danh sách phòng">Làm mới</button>
     <p class="instructions">Nhấp vào tên phòng để chọn, hoặc nhập ID phòng mới ở dưới để tạo.</p>
   </div>
 
   <!-- Khu vực Điều khiển Tham gia -->
   <div class="controls" id="join-controls">
     <h2>Tham Gia hoặc Tạo Phòng Mới</h2>
-    <div class="input-group">
-      <label for="nickname">Biệt danh (Nickname):</label>
-      <input type="text" id="nickname" placeholder="Nhập biệt danh của bạn" required>
-    </div>
-    <div class="input-group">
-      <label for="roomId">ID Phòng:</label>
-      <input type="text" id="roomId" placeholder="Nhập ID phòng hoặc chọn ở trên" required>
-    </div>
-    <button id="joinBtn">Tham Gia / Tạo Phòng</button>
-    <p id="joinError" class="error-message hidden"></p> <!-- Thêm phần tử hiển thị lỗi -->
+    <form id="joinForm">
+      <div class="input-group">
+        <label for="nickname">Biệt danh (Nickname):</label>
+        <input type="text" id="nickname" placeholder="Nhập biệt danh của bạn" required aria-required="true">
+      </div>
+      <div class="input-group">
+        <label for="roomId">ID Phòng:</label>
+        <input type="text" id="roomId" placeholder="Nhập ID phòng hoặc chọn ở trên" required aria-required="true">
+      </div>
+      <button type="submit" id="joinBtn">Tham Gia / Tạo Phòng</button>
+    </form>
+    <p id="joinError" class="error-message hidden" role="alert" aria-live="assertive"></p> <!-- Thêm phần tử hiển thị lỗi -->
   </div>
 
   <!-- Khu vực Cuộc Gọi (Ẩn ban đầu) -->
@@ -50,7 +52,7 @@
         <h3>Đối tác (<span id="remoteUserIdShort"></span>)</h3>
         <video id="remoteVideo" autoplay playsinline></video>
         <span class="nickname-overlay" id="remoteNickname"></span>
-        <p id="remoteStatus">Đang chờ đối tác...</p>
+        <p id="remoteStatus" role="status" aria-live="polite">Đang chờ đối tác...</p>
       </div>
     </div>
     <button id="leaveBtn">Rời Phòng</button>

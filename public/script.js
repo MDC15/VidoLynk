@@ -6,6 +6,7 @@ const roomManagementArea = document.getElementById('room-management');
 const roomList = document.getElementById('roomList');
 const refreshRoomsBtn = document.getElementById('refreshRoomsBtn');
 const joinControls = document.getElementById('join-controls');
+const joinForm = document.getElementById('joinForm');
 const nicknameInput = document.getElementById('nickname');
 const roomIdInput = document.getElementById('roomId');
 const joinBtn = document.getElementById('joinBtn');
@@ -48,7 +49,14 @@ function initialize() {
 
     // Event Listeners
     refreshRoomsBtn.onclick = requestRoomList;
-    joinBtn.onclick = joinRoom;
+    if (joinForm) {
+        joinForm.onsubmit = (e) => {
+            e.preventDefault();
+            joinRoom();
+        };
+    } else {
+        joinBtn.onclick = joinRoom;
+    }
     leaveBtn.onclick = leaveRoom;
 
     // Initial UI State
@@ -198,6 +206,9 @@ function updateRoomListUI(rooms) {
     rooms.forEach(room => {
         const li = document.createElement('li');
         li.dataset.roomId = room.id;
+        li.tabIndex = 0;
+        li.setAttribute('role', 'button');
+        li.setAttribute('aria-label', `Tham gia phòng ${room.id}`);
 
         const roomIdSpan = document.createElement('span');
         roomIdSpan.textContent = room.id;
@@ -211,10 +222,18 @@ function updateRoomListUI(rooms) {
         li.appendChild(roomIdSpan);
         li.appendChild(roomInfoSpan);
 
-        li.onclick = () => {
+        const selectRoom = () => {
             roomIdInput.value = room.id;
             console.log(`Selected room: ${room.id}`);
             roomIdInput.focus(); // Focus vào input để người dùng dễ thấy
+        };
+
+        li.onclick = selectRoom;
+        li.onkeydown = (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                selectRoom();
+            }
         };
 
         roomList.appendChild(li);
@@ -275,6 +294,8 @@ async function joinRoom() {
 
     hideJoinError();
     joinBtn.disabled = true;
+    const originalBtnText = joinBtn.textContent;
+    joinBtn.textContent = "Đang tham gia...";
     console.log(`Attempting to join room "${roomId}" as "${localNickname}"`);
 
     try {
@@ -315,6 +336,7 @@ async function joinRoom() {
         }
         localNicknameSpan.style.display = 'none';
         joinBtn.disabled = false; // Allow retry
+        joinBtn.textContent = originalBtnText;
         currentRoom = null; // Reset current room
     }
 }
@@ -335,6 +357,7 @@ function leaveRoom() {
     roomManagementArea.classList.remove('hidden');
     joinControls.classList.remove('hidden');
     joinBtn.disabled = false;
+    joinBtn.textContent = "Tham Gia / Tạo Phòng";
     // nicknameInput.value = localNickname; // Optionally keep nickname
     roomIdInput.value = '';
     localVideo.srcObject = null;
